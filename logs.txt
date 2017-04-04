@@ -1,0 +1,15 @@
+1. make the restaurants layer clickable and set the content
+2. add the restaurants budget anaylsis
+-> make a score
+-> find the formular how much avarage revenue = inital investment
+-> devide by employee size (employee cost)
+-> other factors such as reputation(yelp rating) 
+3. finalize data
+4. more work on the left menu
+5. make the size of symble based on the score and add UI option for it
+6. make the size of symble based on the sales(range) and have UI option for it 
+7. finanlize the color selection
+8. finnalize the legend
+
+9. integrate jquery
+10. restructure the code

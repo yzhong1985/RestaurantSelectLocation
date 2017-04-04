@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Restaurants Location Analysis</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/dijit/themes/claro/claro.css">
+    <link rel="stylesheet" href="https://js.arcgis.com/3.20/esri/css/esri.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon" />
+    <script src="https://js.arcgis.com/3.20/"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="scripts/map.js"></script>
+
+</head>
+<body>
+
+<div id="leftMenu">
+    <p>A restaurants site analysis for the following cities:<br/> <span class="boldText">Claremont, Upland, Rancho Cucamonga, Ontario, Montclair</span></p>
+    <p>All the data is from ReferenceUSA and YelpAPI</p>
+
+    <div id="menuControl">
+        <label for="raceGroupSelect">Select Restaurant Type</label>
+        <select id="raceGroupSelect">
+            <option value="all">All Restaurants</option>
+            <option value="american">American Food</option>
+            <option value="asian">Asian Food</option>
+            <option value="european">European Food</option>
+            <option value="mexican">Mexican Food</option>
+            <option value="others">Others</option>
+        </select><br/>
+        <label class="raceLayer" for="showRaceLayer">Show Related Race Group%</label><input class="raceLayer" id="showRaceLayer" type="checkbox" ><br/>
+        <label for="displayBySelect">Select Feature Display Type</label>
+        <select id="displayBySelect">
+            <option value="location">By location only</option>
+            <option value="sales">By sales</option>
+            <option value="score">By r-score</option>
+        </select><br/>
+
+
+        <div id="advanceContainer">
+        <label for="showAdvanceOptions">Show Advanced Options</label><input id="showAdvanceOptions" type="checkbox" >
+        <div id="advanceOptDiv">
+            <label for="basemapSelect">Change Basemap</label>
+            <select id="basemapSelect">
+                <option value="streets">Street</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="topo">Topo</option>
+                <option value="gray">Gray</option>
+                <option value="osm">Osm</option>
+                <option value="streets-navigation-vector">Navigation</option>
+            </select><br/>
+        </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="map">
+    <div id="HomeButton"></div>
+</div>
+<div id="info"><div id="legend"></div></div>
+
+<div style="clear: both;"></div>
+
+
+</body>
+</html>
