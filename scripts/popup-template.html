@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table class='infobox-table'><tr><td><a class='infobox-title' href='${yelp_url}'>${name}</a></td></tr> <tr><td><div class='infobox-stars ${yelp_rating:ratingClass}' title='star rating'></div></td></tr> <tr><td><span>${price}</span></td></tr> <tr><td><span>${address1}<br/>${city},${state}&nbsp;${zip_code}</span></td></tr> <tr><td><span class='infobox-tags'>${tags}</span></td></tr>
+
+    <tr><<>/tr>
+</table> <img class='infobox-img' src='${image_url}'/>
+</body>
+</html>
+
+<div class='infobox-stars ' title="star rating"></div>

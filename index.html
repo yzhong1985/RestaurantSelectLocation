@@ -20,7 +20,7 @@
     <p>All the data is from ReferenceUSA and YelpAPI</p>
 
     <div id="menuControl">
-        <label for="raceGroupSelect">Select Restaurant Type</label>
+        <label for="raceGroupSelect">Select Type of Restaurant to open</label>
         <select id="raceGroupSelect">
             <option value="all">All Restaurants</option>
             <option value="american">American Food</option>
@@ -30,13 +30,43 @@
             <option value="others">Others</option>
         </select><br/>
         <label class="raceLayer" for="showRaceLayer">Show Related Race Group%</label><input class="raceLayer" id="showRaceLayer" type="checkbox" ><br/>
-        <label for="displayBySelect">Select Feature Display Type</label>
-        <select id="displayBySelect">
-            <option value="location">By location only</option>
-            <option value="sales">By sales</option>
-            <option value="score">By r-score</option>
+        <label for="displayByRestSize">Select size of the restaurant to open (in sqft)</label>
+        <select id="displayByRestSize">
+            <option value="0">Not sure yet</option>
+            <option value="1">1 - 1,499</option>
+            <option value="2">1,500 - 2,499</option>
+            <option value="3">2,500 - 4,999</option>
+            <option value="4">5,000 - 9,999</option>
+            <option value="5">10,000 - 19,999</option>
+            <option value="6">20,000 - 39,999</option>
+            <option value="7">40,000 - 99,999</option>
+            <option value="8">100,000+</option>
         </select><br/>
-
+        <label for="displayByEmployeeSize">Select the number of people to hire</label>
+        <select id="displayByEmployeeSize">
+            <option value="zero">Not sure yet</option>
+            <option value="small">0 to 10</option>
+            <option value="medium">10 to 30</option>
+            <option value="medium-large">30 to 60</option>
+            <option value="large">60 to 120</option>
+            <option value="huge">Over 120</option>
+        </select><br/>
+        <label for="displayByRent">Select the budget of annual rent </label>
+        <select id="displayByRent">
+            <option value="0">Not sure yet</option>
+            <option value="1">Less than $10,000</option>
+            <option value="2">$10,000 to $25,000</option>
+            <option value="3">$25,000 to $50,000</option>
+            <option value="4">$50,000 to $100,000</option>
+            <option value="5">$100,000 to $250,000</option>
+            <option value="6">$250,000 to $500,000</option>
+            <option value="7">Over $500,000</option>
+        </select><br/>
+        <label for="displayBySelect">Select Output Display Type</label>
+        <select id="displayBySelect">
+            <option value="location">Location only</option>
+            <option value="sales">Estimated profit</option>
+        </select><br/>
 
         <div id="advanceContainer">
         <label for="showAdvanceOptions">Show Advanced Options</label><input id="showAdvanceOptions" type="checkbox" >

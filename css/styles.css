@@ -58,7 +58,7 @@ select{
 
 #advanceContainer{
     width: 90%;
-    margin:300px auto 0;
+    margin:10px auto 0;
     padding: 10px;
     border: solid 1px #aaaaaa;
 }
@@ -69,7 +69,8 @@ select{
     font-size: 16px;
 }
 .resimg{
-    width: 90%;
+    width: 90px;
+    height: 90px;
     margin: 5px auto;
     border-radius: 5px;
 }
@@ -84,5 +85,73 @@ select{
 
 .titleLogo{
     height: 35px;
+}
+
+.infobox-img{
+    float: right;
+    width: 120px;
+    height: 120px;
+    margin: 5px 10px 0 0;
+    border-radius: 5px;
+}
+
+.infobox-title{
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none!important;
+}
+
+.infobox-table{
+    float: left;
+    width: 250px;
+    display: block;
+}
+
+.infobox-table span{
+    font-size: 14px;
+    display: block;
+    width: 245px;
+    word-wrap: break-word;
+}
+
+.infobox-tags{
+    color:#00008b;
+}
+
+.infobox-stars{
+    background: url('../img/stars.png') no-repeat;
+    width: 102px;
+    height: 18px;
+}
+
+.rating-regular-0{
+    background-position: 0 -240px;
+}
+.rating-regular-1{
+    background-position: 0 -258px;
+}
+.rating-regular-1-half{
+    background-position: 0 -276px;
+}
+.rating-regular-2{
+    background-position: 0 -294px;
+}
+.rating-regular-2-half{
+    background-position: 0 -312px;
+}
+.rating-regular-3{
+    background-position: 0 -330px;
+}
+.rating-regular-3-half{
+    background-position: 0 -348px;
+}
+.rating-regular-4{
+    background-position: 0 -366px;
+}
+.rating-regular-4-half{
+    background-position: 0 -384px;
+}
+.rating-regular-5{
+    background-position: 0 -402px;
 }
 

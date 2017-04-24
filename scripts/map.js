@@ -9,11 +9,14 @@ var app = {};
 // VALUE7:	% Other Race Population, 2016
 // VALUE8:	% White Population, 2016
 var raceField = {
-    american: "VALUE8",
-    asian: "VALUE4",
-    euro: "VALUE3",
-    mexican: "VALUE6",
-    others: "VALUE7",
+    american: "VALUE9",
+    asian: "VALUE5",
+    euro: "VALUE4",
+    mexican: "VALUE7",
+    others: "VALUE8",
+    numOfHousehold: "VALUE2",
+    medianHouseholdIncome: "VALUE3",
+    restaurantIndex: "VALUE11"
 };
 
 var raceRepColor = {
@@ -22,6 +25,7 @@ var raceRepColor = {
     euro: "#f400d7",
     mexican: "#03B300",
     others: "#000000",
+
 };
 
 var raceValueBreak = {
@@ -37,18 +41,20 @@ var raceValueBreak = {
     othersMin: 0,
 };
 
-var infoTemplateContent = "<span class='restitle'>${name}</span><br><img class='resimg' src='${image_url}'/><br>Estimated Sales: &#36;${location_sales_vol_actual:formatContent}";
+//var infoTemplateContent = "<span class='restitle'>${name}</span><br><img class='resimg' src='${image_url}'/><br>Estimated Sales: &#36;${location_sales_vol_actual:formatContent}";
+
+var infoTemplateContent = "<table class='infobox-table'><tr><td><a class='infobox-title' href='${yelp_url}'>${name}</a></td></tr> <tr><td><div class='infobox-stars ${yelp_rating:ratingClass}' title='star rating'></div></td></tr> <tr><td><span>${price}</span></td></tr> <tr><td><span>${address1}<br/>${city},${state}&nbsp;${zip_code}</span></td></tr> <tr><td><span class='infobox-tags'>${tags}</span></td></tr></table> <img class='infobox-img' src='${image_url}'/>"
 
 require([
     "dojo/on", "dojo/number", "esri/InfoTemplate", "esri/layers/FeatureLayer", "esri/map",
     "esri/renderers/HeatmapRenderer", "esri/tasks/query", "esri/dijit/Legend",
     "esri/dijit/HomeButton", "esri/renderers/SimpleRenderer", "esri/Color",
-    "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol",
+    "esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol","esri/symbols/PictureMarkerSymbol",
     "dojo/domReady!"
 ], function (on, number, InfoTemplate, FeatureLayer, Map,
              HeatmapRenderer, Query, Legend,
              HomeButton, SimpleRenderer, Color,
-             SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol) {
+             SimpleFillSymbol, SimpleLineSymbol, SimpleMarkerSymbol, PictureMarkerSymbol) {
 
     app.map = new Map("map", {
         basemap: "streets",
@@ -57,6 +63,7 @@ require([
         minZoom: 13,
         maxZoom: 17
     });
+    app.map.infoWindow.resize(400, 300);
     app.initRaceLyr = false;
     app.displayBy = "location";
     on(app.map, "load", function () {
@@ -73,22 +80,35 @@ require([
     formatContent = function (value, key, data) {
         return number.format(value, {places: 1, locale: "en-us"});
     };
+    ratingClass = function (value, key, data) {
+        var ratingCss = "rating-regular-";
+        var valueTxt = value.toString();
+        valueTxt = valueTxt.replace(".5", "-half");
+        ratingCss+= valueTxt;
+
+        return ratingCss;
+    };
+
     var rTemplate = new InfoTemplate("Restaurant Details", infoTemplateContent);
     //restaurants data layer -> use featuremap
-    app.dataURL_res = "http://services.arcgis.com/q3Zg9ERurv23iysr/arcgis/rest/services/Restaurants_of_Five_Cities/FeatureServer/0";
+    app.dataURL_res = "http://services.arcgis.com/q3Zg9ERurv23iysr/arcgis/rest/services/Restaurants_in_five_cities/FeatureServer/0";
     app.resLayer = new FeatureLayer(app.dataURL_res,{
         infoTemplate:rTemplate,
         outFields: ["*"]
     });
-    app.symbolSelection = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 10,
-        new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([247, 34, 101, 0.9]), 1), new Color([227, 0, 0, 0.6]));
-    app.resLayer.setSelectionSymbol(app.symbolSelection);
-
-    app.resSalesRenderer =new SimpleRenderer(app.symbolSelection);
+    // app.symbolSelection = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 10,
+    //     new SimpleLineSymbol(SimpleLineSymbol.STYLE_NULL, new Color([247, 34, 101, 0.9]), 1), new Color([227, 0, 0, 0.6]));
+    app.symbolSelection =  new PictureMarkerSymbol('img/restaurant-2-medium.png', 15, 15);
+    app.restSymbol = new PictureMarkerSymbol('img/restaurant-2-medium.png', 15, 15);
+    app.resLayer.setSelectionSymbol(app.restSymbol);
+    app.resSalesRenderer =new SimpleRenderer(app.restSymbol);
+    //app.resLayer.setSelectionSymbol(app.symbolSelection);
+    //app.resSalesRenderer =new SimpleRenderer(app.symbolSelection);
     app.resLayer.setRenderer(app.resSalesRenderer);
 
     //five Cities Race Layer -> use featuremap
-    app.dataURL_race = "http://services.arcgis.com/q3Zg9ERurv23iysr/arcgis/rest/services/Race_Population_Percentage_update/FeatureServer/0";
+    //app.dataURL_race = "http://services.arcgis.com/q3Zg9ERurv23iysr/arcgis/rest/services/Race_Population_Percentage_update/FeatureServer/0";
+    app.dataURL_race = "http://services.arcgis.com/q3Zg9ERurv23iysr/arcgis/rest/services/Five_Cities_Demography/FeatureServer/0";
     app.raceLayer = new FeatureLayer(app.dataURL_race);
     app.raceLayer.setOpacity(0.6);
     app.raceRenderer = new SimpleRenderer(new SimpleFillSymbol().setOutline(new SimpleLineSymbol().setWidth(0.3).setColor(new Color([128, 128, 128]))));
