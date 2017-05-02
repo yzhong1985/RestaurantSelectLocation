@@ -13,3 +13,20 @@
 </html>
 
 <div class='infobox-stars ' title="star rating"></div>
+
+<table class='infobox-table'>
+    <tr><td><a class='infobox-title' href='${yelp_url}'>${name}</a></td></tr>
+    <tr><td><div class='infobox-stars ${yelp_rating:ratingClass}' title='star rating'></div></td></tr>
+    <tr><td><span>${price}</span></td></tr>
+    <tr><td><span>${address1}<br/>${city},${state}&nbsp;${zip_code}</span></td></tr>
+    <tr><td><span class='infobox-tags'>${tags}</span></td></tr>
+</table> <img class='infobox-img' src='${image_url}'/>
+<table class='infobox2-table'>
+    <tr><td colspan='2' class='toptitle'>Business Information</td></tr>
+    <tr><td class='infotitle'>Location Sales Volume:</td><td><span>${location_sales_vol_actual}</span></td></tr>
+    <tr><td class='infotitle'># Employees:</td><td><span>${location_emp_size_actual}</span></td></tr>
+    <tr><td class='infotitle'>Location Sqt:</td><td><span>${sqt_footage}</span></td></tr>
+    <tr><td class='infotitle'>Est.Annual Rent:</td><td><span>${rent_expense_avg_val}</span></td></tr>
+    <tr><td class='infotitle'>Est.Annual Payroll:</td><td><span>${payroll_expense_avg_val}</span></td></tr>
+    <tr><td class='infotitle'>Est.Profit:</td><td><span>${est_profit}</span></td></tr>
+</table>

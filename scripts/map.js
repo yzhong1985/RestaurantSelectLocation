@@ -19,6 +19,14 @@ var raceField = {
     restaurantIndex: "VALUE11"
 };
 
+var raceLegendText = {
+    american: "Black & White %",
+    asian: "Asian %",
+    euro: "European Ancestry %",
+    mexican: "Hispanic %",
+    others: "Other Race %",
+};
+
 var raceRepColor = {
     american: "#0054f4",
     asian: "#CD3B00",
@@ -30,7 +38,7 @@ var raceRepColor = {
 
 var raceValueBreak = {
     americanMax: 90,
-    americanMin: 35,
+    americanMin: 0,
     asianMax: 35,
     asianMin: 0,
     euroMax: 15,
@@ -43,7 +51,7 @@ var raceValueBreak = {
 
 //var infoTemplateContent = "<span class='restitle'>${name}</span><br><img class='resimg' src='${image_url}'/><br>Estimated Sales: &#36;${location_sales_vol_actual:formatContent}";
 
-var infoTemplateContent = "<table class='infobox-table'><tr><td><a class='infobox-title' href='${yelp_url}'>${name}</a></td></tr> <tr><td><div class='infobox-stars ${yelp_rating:ratingClass}' title='star rating'></div></td></tr> <tr><td><span>${price}</span></td></tr> <tr><td><span>${address1}<br/>${city},${state}&nbsp;${zip_code}</span></td></tr> <tr><td><span class='infobox-tags'>${tags}</span></td></tr></table> <img class='infobox-img' src='${image_url}'/>"
+var infoTemplateContent = "<table class='infobox-table'><tr><td><a class='infobox-title' href='${yelp_url}'>${name}</a></td></tr> <tr><td><div class='infobox-stars ${yelp_rating:ratingClass}' title='star rating'></div></td></tr> <tr><td><span>${price}</span></td></tr> <tr><td><span>${address1}<br/>${city},${state}&nbsp;${zip_code}</span></td></tr> <tr><td><span class='infobox-tags'>${tags}</span></td></tr></table> <img class='infobox-img' src='${image_url}'/><table class='infobox2-table'><tr><td colspan='2' class='toptitle'>Business Information</td></tr><tr><td class='infotitle'># Employees:</td><td><span>${location_emp_size_actual}</span></td></tr><tr><td class='infotitle'>Location Sqt:</td><td><span>${sqt_footage}</span></td></tr><tr><td class='infotitle'>Location Sales Volume:</td><td><span>${location_sales_vol_actual:formatContent}</span></td></tr><tr><td class='infotitle'>Est.Annual Rent:</td><td><span>&#36;${rent_expense_avg_val:formatContent}</span></td></tr><tr><td class='infotitle'>Est.Annual Payroll:</td><td><span>&#36;${payroll_expense_avg_val:formatContent}</span></td></tr><tr><td class='infotitle'>Est.Profit:</td><td><span>&#36;${est_profit:formatContent}</span></td></tr></table>";
 
 require([
     "dojo/on", "dojo/number", "esri/InfoTemplate", "esri/layers/FeatureLayer", "esri/map",
@@ -66,6 +74,7 @@ require([
     app.map.infoWindow.resize(400, 300);
     app.initRaceLyr = false;
     app.displayBy = "location";
+    app.query = new Query();
     on(app.map, "load", function () {
         $(document).ready(loadjQuery);
     });
@@ -78,7 +87,7 @@ require([
 
     //setup the content of the popup box in the map
     formatContent = function (value, key, data) {
-        return number.format(value, {places: 1, locale: "en-us"});
+        return number.format(value, {places: 0, locale: "en-us"});
     };
     ratingClass = function (value, key, data) {
         var ratingCss = "rating-regular-";
@@ -129,7 +138,7 @@ require([
         $("#raceGroupSelect").change(raceGroupChange);
         $("#displayBySelect").change(displayByChange);
         $("#showRaceLayer").change(showRaceLayerChk);
-        $("#showAdvanceOptions").change(showAdvance);
+        $('#showRestIndex').change(showRestIndexLayerCheck);
     }
 
     //Event handlers
@@ -150,23 +159,40 @@ require([
         var r = e.target.selectedOptions[0];
         app.race = r.value;
 
-        var query = new Query();
         if (r.value == "all") {
-            query.where = "1=1";
+            app.query.where = "1=1";
             app.map.removeLayer(app.raceLayer);
             $(".raceLayer").hide(100);
         }
         else {
-            query.where = "tags LIKE '%" + app.race + "%'";
+            //app.query.where = "tags LIKE '%" + app.race + "%'";
+            app.query.where = buildSQLwhere();
             $(".raceLayer").show(100);
         }
 
-        app.resLayer.selectFeatures(query, FeatureLayer.SELECTION_NEW, selectFeatures, errorHandler);
+        app.resLayer.selectFeatures(app.query, FeatureLayer.SELECTION_NEW, selectFeatures, errorHandler);
         $("#legend").html("");
 
         if (app.displayRaceLyr) {
             changeRace(app.race);
         }
+    }
+
+    function buildSQLwhere() {
+        var finalsql="", racesql="", sqftsql="", numEmpsql="", rentsql="";
+        if(app.race=="all"){
+            racesql = "1=1";
+        }
+        else{
+            racesql = "tags LIKE '%" + app.race + "%'";
+        }
+
+        if(app.sqft != "0"){
+            sqftsql = ""
+        }
+
+
+        return "tags LIKE '%" + app.race + "%'";
     }
 
     function displayByChange(e) {
@@ -204,36 +230,41 @@ require([
     }
 
     function changeRace(race) {
-        var field, minV, maxV, colorHex;
+        var field, minV, maxV, colorHex, legendTxt;
         if (race == "american") {
             field = raceField.american;
             minV = raceValueBreak.americanMin;
             maxV = raceValueBreak.americanMax;
             colorHex = raceRepColor.american;
+            legendTxt = raceLegendText.american;
         }
         else if (race == "asian") {
             field = raceField.asian;
             minV = raceValueBreak.asianMin;
             maxV = raceValueBreak.asianMax;
             colorHex = raceRepColor.asian;
+            legendTxt = raceLegendText.asian;
         }
         else if (race == "european") {
             field = raceField.euro;
             minV = raceValueBreak.euroMin;
             maxV = raceValueBreak.euroMax;
             colorHex = raceRepColor.euro;
+            legendTxt = raceLegendText.euro;
         }
         else if (race == "mexican") {
             field = raceField.mexican;
             minV = raceValueBreak.mexicanMin;
             maxV = raceValueBreak.mexicanMax;
             colorHex = raceRepColor.mexican;
+            legendTxt = raceLegendText.mexican;
         }
         else if (race == "others") {
             field = raceField.others;
             minV = raceValueBreak.othersMin;
             maxV = raceValueBreak.othersMax;
             colorHex = raceRepColor.others;
+            legendTxt = raceLegendText.others;
         }
         else {
             return;
@@ -253,6 +284,12 @@ require([
         app.map.removeLayer(app.raceLayer);
         app.map.addLayer(app.raceLayer, 0);
         app.raceLegend.startup();
+        //update legend text
+        updateLegendText(legendTxt);
+    }
+
+    function updateLegendText(legendTxt) {
+        $("table.esriLegendLayer td table td").text(legendTxt);
     }
 
     function errorHandler(err) {
@@ -260,11 +297,40 @@ require([
     }
 
     function selectFeatures(r) {
-        console.log(r);
+        //console.log(r);
     }
 
-    function showAdvance(e) {
-        $("#advanceOptDiv").slideToggle(100);
+    function showRestIndexLayerCheck(e) {
+        var chk = e.target.checked;
+        if (!chk) {
+            app.displayRaceLyr = false;
+            app.map.removeLayer(app.raceLayer);
+            $("#legend").html("");
+        }
+        else {
+            app.displayRaceLyr = true;
+            showRestaurantIndex();
+        }
+    }
+
+    function showRestaurantIndex() {
+        app.raceRenderer.setColorInfo({
+            field: "VALUE11",
+            minDataValue: 45,
+            maxDataValue: 190,
+            colors: [
+                new Color.fromHex("#ffffff"),
+                new Color.fromHex("#551a8b")
+            ]
+        });
+        // Reset layer by removing it and adding it back
+        app.raceLayer.setRenderer(app.raceRenderer);
+        app.map.removeLayer(app.raceLayer);
+        app.map.addLayer(app.raceLayer, 0);
+        app.raceLegend.startup();
+        //update legend text
+        var legendTxt = "Restaurant Index Score"
+        updateLegendText(legendTxt);
     }
 });
 
