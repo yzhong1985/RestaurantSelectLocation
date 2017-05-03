@@ -104,14 +104,14 @@ select{
 
 .infobox-table{
     float: left;
-    width: 250px;
+    width: 220px;
     display: block;
 }
 
 .infobox-table span{
     font-size: 14px;
     display: block;
-    width: 245px;
+    width: 215px;
     word-wrap: break-word;
 }
 
@@ -169,4 +169,28 @@ select{
 .rating-regular-5{
     background-position: 0 -402px;
 }
+
+.messagepop {
+    background-color:#FFFFFF;
+    border:1px solid #999999;
+    cursor:default;
+    display:none;
+    margin-top: 15px;
+    position:absolute;
+    top:100px;
+    left:100px;
+    text-align:left;
+    width:60%;
+    padding: 25px 25px 20px;
+}
+
+.messagepop td{
+    vertical-align: top;
+    padding: 10px;
+}
+
+#numOfResult{
+    font-weight: 600;
+}
+
 

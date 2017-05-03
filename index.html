@@ -33,23 +33,23 @@
         <label for="displayByRestSize">Select size of the restaurant to open (in sqft)</label>
         <select id="displayByRestSize">
             <option value="0">Not sure yet</option>
-            <option value="1">1 - 1,499</option>
-            <option value="2">1,500 - 2,499</option>
-            <option value="3">2,500 - 4,999</option>
-            <option value="4">5,000 - 9,999</option>
-            <option value="5">10,000 - 19,999</option>
-            <option value="6">20,000 - 39,999</option>
-            <option value="7">40,000 - 99,999</option>
-            <option value="8">100,000+</option>
+            <option value="1 - 1,499">1 - 1,499</option>
+            <option value="1,500 - 2,499">1,500 - 2,499</option>
+            <option value="2,500 - 4,999">2,500 - 4,999</option>
+            <option value="5,000 - 9,999">5,000 - 9,999</option>
+            <option value="10,000 - 19,999">10,000 - 19,999</option>
+            <option value="20,000 - 39,999">20,000 - 39,999</option>
+            <option value="40,000 - 99,999">40,000 - 99,999</option>
+            <option value="100,000+">100,000+</option>
         </select><br/>
         <label for="displayByEmployeeSize">Select the number of people to hire</label>
         <select id="displayByEmployeeSize">
-            <option value="zero">Not sure yet</option>
-            <option value="small">0 to 10</option>
-            <option value="medium">10 to 30</option>
-            <option value="medium-large">30 to 60</option>
-            <option value="large">60 to 120</option>
-            <option value="huge">Over 120</option>
+            <option value="0">Not sure yet</option>
+            <option value="1">0 to 9</option>
+            <option value="2">10 to 29</option>
+            <option value="3">30 to 59</option>
+            <option value="4">60 to 119</option>
+            <option value="5">Over 120</option>
         </select><br/>
         <label for="displayByRent">Select the budget of annual rent </label>
         <select id="displayByRent">
@@ -65,24 +65,30 @@
         <label for="displayBySelect">Select Output Display Type</label>
         <select id="displayBySelect">
             <option value="location">Location only</option>
-            <option value="sales">Estimated profit</option>
+            <option value="profit">Estimated profit</option>
         </select><br/>
-
+        <span id="numOfResult">533 Restaurants displayed</span>
         <div id="advanceContainer">
         <span class="blocktitle">Advanced Options</span>
         <div id="advanceOptDiv">
 
             <label for="basemapSelect">Change Basemap</label>
             <select id="basemapSelect">
+                <option value="topo">Topo</option>
                 <option value="streets">Street</option>
                 <option value="hybrid">Hybrid</option>
-                <option value="topo">Topo</option>
                 <option value="gray">Gray</option>
                 <option value="osm">Osm</option>
                 <option value="streets-navigation-vector">Navigation</option>
             </select><br/>
-            <label for="showRestIndex">Show Restaurant Index Layer</label>
-            <input id="showRestIndex" type="checkbox" >
+            <label for="showDlayerSelect">Show Demographic Layer</label>
+            <select id="showDlayerSelect">
+                <option value="none">None</option>
+                <option value="rest-index">Restaurant Index Layer</option>
+                <option value="num-household">Number of Household</option>
+                <option value="m-income">Median Income</option>
+            </select><br/>
+            <label id="restIndxBtn">What is Restaurant Index?</label>
         </div>
         </div>
     </div>
@@ -95,6 +101,17 @@
 <div id="info"><div id="legend"></div></div>
 
 <div style="clear: both;"></div>
+
+<div class="messagepop closeRestIndx">
+    <table>
+        <tr><td><b>Name:</b></td><td>Restaurant Index, 2016</td></tr>
+        <tr><td><b>Path:</b></td><td>Sales Potential</td></tr>
+        <tr><td><b>Definition:</b></td><td>A higher value indicates more than average dining opportunities near the geography. EASI has developed an index to reflect dining interests of the community. These data are summarized from ZIP Code Business Patterns. ZIP Code Business Patterns is an annual source of establishment and employment data for the United States. The factors that have been used in the creation of this estimate is the number of employees working in: --Full Service Restaurants (NAICS 7221) --Limited Service Eating Places (NAICS 7222) --Special Food Services (NAICS 7223) --Drinking Places (NAICS 7224) Restaurant is not a variable that is measurable for a particular neighborhood. It is more closely associated with a larger area. EASI has summarized the above data at the county level for this analysis.</td></tr>
+        <tr><td><b>Data Source:</b></td><td><u>Market Segments:</u><p>EASI Analytic created an index (where 100 is the national average) using one or more variables from the US Census Bureau. See specific market segment definition or more information.</p><u>Sales Potential:</u><p>EASI Analytic created an index (where 100 is the national average) using several related categories from the ZIP Code Business Patterns data set. ZIP Code Business Patterns is an annual source of establishment and employment data for the United States.</p></td></tr>
+    </table>
+</div>
+
+
 
 
 </body>
